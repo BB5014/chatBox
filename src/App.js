@@ -30,6 +30,8 @@ class App extends Component {
 				</div>
 			</div>
         <Formulaire
+          // number characters management (length)
+          length={140}
           pseudo={this.state.pseudo}
           addMessage={this.addMessage} />
 		</div>

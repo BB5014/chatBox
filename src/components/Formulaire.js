@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 
 class Formulaire extends Component {
+	// Initialisation of state
 	state = {
-		message: ""
+		message: "",
+		length: this.props.length
 	};
 
 	// create message and record in the state
 	createMessage = () => {
-		const { addMessage, pseudo } = this.props;
+		const { addMessage, pseudo, length } = this.props;
 		// Store properties
 		const message = {
 			pseudo,
@@ -16,8 +18,9 @@ class Formulaire extends Component {
 		// Pass message
 		addMessage(message);
 
-		// Reset formulary after write a message but messages stay in the state
-		this.setState({ message: "" });
+		// Reset formulary  and length after write a message but messages stay in the state
+		
+		this.setState({ message: "", length });
 	};
 
 	handleSubmit = event => {
@@ -27,7 +30,16 @@ class Formulaire extends Component {
 
 	handleChange = event => {
 		const message = event.target.value;
-		this.setState({ message });
+		const length = this.props.length - message.length;
+		this.setState({ message, length});
+	};
+
+
+// For use touch Enter
+	handleKeyUp = event => {
+		if (event.key === "Enter") {
+			this.createMessage()
+		}
 	};
 
 	render() {
@@ -36,10 +48,11 @@ class Formulaire extends Component {
 				<textarea
 					value={this.state.message}
 					required
-					maxLength="140"
+					maxLength={this.props.length}
 					onChange={this.handleChange}
+					onKeyUp={this.handleKeyUp}
 				/>
-				<div className="info">140</div>
+				<div className="info">{this.state.length}</div>
 				<button type="submit">Envoyer !</button>
 			</form>
 		);
