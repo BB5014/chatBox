@@ -5,6 +5,20 @@ import Formulaire from "./components/Formulaire";
 import Message from "./components/Message";
 
 class App extends Component {
+  state = {
+    messages: {},
+    pseudo: this.props.match.params.pseudo
+  }
+
+  addMessage = message => {
+    // copy state
+    const messages = { ...this.state.messages };
+    // add message with key only (Date.now)
+    messages[`message-${Date.now()}`] = message;
+    // update state
+    this.setState({ messages });
+  }
+
   render () {
     return (
 		<div className="box">
@@ -15,7 +29,9 @@ class App extends Component {
 					<Message />
 				</div>
 			</div>
-			<Formulaire />
+        <Formulaire
+          pseudo={this.state.pseudo}
+          addMessage={this.addMessage} />
 		</div>
 	);
   }
